@@ -14,6 +14,5 @@ function getRandomDecimal(min, max, decimalPlaces) {
   return +(Math.random() * (max - min) + min).toFixed(decimalPlaces);
 }
 
-function isValidLength(text, maxLength) {
-  return text.length === maxLength;
-}
+getRandomInt(1, 10);
+getRandomDecimal(1.5, 5.78, 2);
