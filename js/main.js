@@ -13,3 +13,7 @@ function getRandomDecimal(min, max, decimalPlaces) {
   }
   return +(Math.random() * (max - min) + min).toFixed(decimalPlaces);
 }
+
+function isValidLength(text, maxLength) {
+  return text.length === maxLength;
+}
