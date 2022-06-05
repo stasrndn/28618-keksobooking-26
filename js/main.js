@@ -1,5 +1,5 @@
 function getRandomInt(min, max) {
-  if (max < min) {
+  if (max <= min) {
     return 0;
   }
   min = Math.ceil(min);
