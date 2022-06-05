@@ -7,4 +7,9 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-getRandomInt(0, 10);
+function getRandomDecimal(min, max, decimalPlaces) {
+  if (max <= min) {
+    return 0;
+  }
+  return +(Math.random() * (max - min) + min).toFixed(decimalPlaces);
+}
