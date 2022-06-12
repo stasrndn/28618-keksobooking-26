@@ -1,18 +1,28 @@
-function getRandomInt(min, max) {
-  if (max <= min) {
-    return 0;
-  }
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min);
+/**
+ * Функция, возвращающая случайной целое число из заданного диапазона
+ * @param a - целое число
+ * @param b - целое число
+ * @returns {number}
+ */
+function getRandomPositiveInteger (a, b) {
+  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
+  const upper = Math.floor(Math.min(Math.abs(a), Math.abs(b)));
+  const result = Math.random() * (upper - lower + 1) + lower;
+
+  return Math.floor(result);
 }
 
-function getRandomDecimal(min, max, decimalPlaces) {
-  if (max <= min) {
-    return 0;
-  }
-  return +(Math.random() * (max - min) + min).toFixed(decimalPlaces);
-}
+/**
+ * Функция, возвращающая случайной дробное число из заданного диапазона
+ * @param a - дробное число
+ * @param b - дробное число
+ * @param digits - требуемое количество знаков после точки
+ * @returns {number}
+ */
+function getRandomPositiveFloat(a, b, digits = 1) {
+  const lower = Math.min(Math.abs(a), Math.abs(b));
+  const upper = Math.max(Math.abs(a), Math.abs(b));
+  const result = Math.random() * (upper - lower) + lower;
 
-getRandomInt(1, 10);
-getRandomDecimal(1.5, 5.78, 2);
+  return +result.toFixed(digits);
+}
