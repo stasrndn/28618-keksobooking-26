@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const SIMILAR_ADV_COUNT = 10;
 
 const PRICE_MIN = 100000;
@@ -159,5 +160,3 @@ const createAdvertisement = () => {
 };
 
 const similarAdvertisements = Array.from({length: SIMILAR_ADV_COUNT}, createAdvertisement);
-
-console.log(similarAdvertisements);
