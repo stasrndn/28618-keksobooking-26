@@ -10,13 +10,17 @@ const ROOMS_MAX = 8;
 const GUEST_MIN = 2;
 const GUEST_MAX = 14;
 
-const LOCATION_LAT_MIN = 35.65000;
-const LOCATION_LAT_MAX = 35.70000;
-
-const LOCATION_LNG_MIN = 139.70000;
-const LOCATION_LNG_MAX = 139.80000;
-
-const LOCATION_DIGITS = 5;
+const LOCATION = {
+  LAT: {
+    MIN: 35.65000,
+    MAX: 35.70000,
+  },
+  LNG: {
+    MIN: 139.70000,
+    MAX: 139.80000,
+  },
+  DIGITS: 5,
+};
 
 const TIME_VALUES = ['12:00', '13:00', '14:00'];
 
@@ -132,8 +136,8 @@ const AVATAR_URLS = Array.from({length: SIMILAR_ADV_COUNT}, avatarUrlCallback);
  * author: {avatar: (*|T|null)}, location: {lng: number, lat: number}}}
  */
 const createAdvertisement = () => {
-  const locationLat = getRandomPositiveFloat(LOCATION_LAT_MIN, LOCATION_LAT_MAX, LOCATION_DIGITS);
-  const locationLng = getRandomPositiveFloat(LOCATION_LNG_MIN, LOCATION_LNG_MAX, LOCATION_DIGITS);
+  const locationLat = getRandomPositiveFloat(LOCATION.LAT.MIN, LOCATION.LAT.MAX, LOCATION.DIGITS);
+  const locationLng = getRandomPositiveFloat(LOCATION.LNG.MIN, LOCATION.LNG.MAX, LOCATION.DIGITS);
 
   return {
     'author': {
