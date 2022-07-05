@@ -127,8 +127,6 @@ const getRandomElementFromArray = (array, remove = false) => {
  */
 const avatarUrlCallback = (k, v) => `img/avatars/user${String(v + 1).padStart(2, '0')}.png`;
 
-const AVATAR_URLS = Array.from({length: SIMILAR_ADV_COUNT}, avatarUrlCallback);
-
 /**
  * Функция, возвращающая новый объект объявления
  * @returns {{offer: {features: *, rooms: number, address: string, checkin: (*|T|null), price: number,
@@ -139,28 +137,35 @@ const createAdvertisement = () => {
   const locationLat = getRandomPositiveFloat(LOCATION.LAT.MIN, LOCATION.LAT.MAX, LOCATION.DIGITS);
   const locationLng = getRandomPositiveFloat(LOCATION.LNG.MIN, LOCATION.LNG.MAX, LOCATION.DIGITS);
 
+  let avatarUrls = Array.from({length: SIMILAR_ADV_COUNT}, avatarUrlCallback);
+
   return {
-    'author': {
-      'avatar': getRandomElementFromArray(AVATAR_URLS, true)
+    author: {
+      avatar: getRandomElementFromArray(avatarUrls, true)
     },
-    'offer': {
-      'title': getRandomElementFromArray(OFFER_TITLES, true),
-      'address': `${locationLat}, ${locationLng}`,
-      'price': getRandomPositiveInteger(PRICE_MIN, PRICE_MAX),
-      'type': getRandomElementFromArray(OFFER_TYPE),
-      'rooms': getRandomPositiveInteger(ROOMS_MIN, ROOMS_MAX),
-      'guests': getRandomPositiveInteger(GUEST_MIN, GUEST_MAX),
-      'checkin': getRandomElementFromArray(TIME_VALUES),
-      'checkout': getRandomElementFromArray(TIME_VALUES),
-      'features': getRandomLengthArray(OFFER_FEATURES),
-      'description': getRandomElementFromArray(OFFER_DESCRIPTIONS, true),
-      'photos': getRandomLengthArray(OFFER_PHOTOS)
+    offer: {
+      title: getRandomElementFromArray(OFFER_TITLES, true),
+      address: `${locationLat}, ${locationLng}`,
+      price: getRandomPositiveInteger(PRICE_MIN, PRICE_MAX),
+      type: getRandomElementFromArray(OFFER_TYPE),
+      rooms: getRandomPositiveInteger(ROOMS_MIN, ROOMS_MAX),
+      guests: getRandomPositiveInteger(GUEST_MIN, GUEST_MAX),
+      checkin: getRandomElementFromArray(TIME_VALUES),
+      checkout: getRandomElementFromArray(TIME_VALUES),
+      features: getRandomLengthArray(OFFER_FEATURES),
+      description: getRandomElementFromArray(OFFER_DESCRIPTIONS, true),
+      photos: getRandomLengthArray(OFFER_PHOTOS)
     },
-    'location': {
-      'lat': locationLat,
-      'lng': locationLng
+    location: {
+      lat: locationLat,
+      lng: locationLng
     }
   };
 };
 
-const similarAdvertisements = Array.from({length: SIMILAR_ADV_COUNT}, createAdvertisement);
+/**
+ * Функция, создающая список объявлений
+ */
+const makeAdvertisements = () => Array.from({length: SIMILAR_ADV_COUNT}, createAdvertisement);
+
+const similarAdvertisements = makeAdvertisements();
