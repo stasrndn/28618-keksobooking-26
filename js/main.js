@@ -10,13 +10,17 @@ const ROOMS_MAX = 8;
 const GUEST_MIN = 2;
 const GUEST_MAX = 14;
 
-const LOCATION_LAT_MIN = 35.65000;
-const LOCATION_LAT_MAX = 35.70000;
-
-const LOCATION_LNG_MIN = 139.70000;
-const LOCATION_LNG_MAX = 139.80000;
-
-const LOCATION_DIGITS = 5;
+const LOCATION = {
+  LAT: {
+    MIN: 35.65000,
+    MAX: 35.70000,
+  },
+  LNG: {
+    MIN: 139.70000,
+    MAX: 139.80000,
+  },
+  DIGITS: 5,
+};
 
 const TIME_VALUES = ['12:00', '13:00', '14:00'];
 
@@ -116,47 +120,42 @@ const getRandomElementFromArray = (array, remove = false) => {
 };
 
 /**
- * Функция, возвращающая URL-адрес аватара
- * @param k
- * @param v
- * @returns {`img/avatars/user${string}.png`}
- */
-const avatarUrlCallback = (k, v) => `img/avatars/user${String(v + 1).padStart(2, '0')}.png`;
-
-const AVATAR_URLS = Array.from({length: SIMILAR_ADV_COUNT}, avatarUrlCallback);
-
-/**
  * Функция, возвращающая новый объект объявления
  * @returns {{offer: {features: *, rooms: number, address: string, checkin: (*|T|null), price: number,
  * guests: number, description: (*|T|null), title: (*|T|null), type: (*|T|null), checkout: (*|T|null), photos: *},
  * author: {avatar: (*|T|null)}, location: {lng: number, lat: number}}}
  */
-const createAdvertisement = () => {
-  const locationLat = getRandomPositiveFloat(LOCATION_LAT_MIN, LOCATION_LAT_MAX, LOCATION_DIGITS);
-  const locationLng = getRandomPositiveFloat(LOCATION_LNG_MIN, LOCATION_LNG_MAX, LOCATION_DIGITS);
+const createAdvertisement = (index) => {
+  const locationLat = getRandomPositiveFloat(LOCATION.LAT.MIN, LOCATION.LAT.MAX, LOCATION.DIGITS);
+  const locationLng = getRandomPositiveFloat(LOCATION.LNG.MIN, LOCATION.LNG.MAX, LOCATION.DIGITS);
 
   return {
-    'author': {
-      'avatar': getRandomElementFromArray(AVATAR_URLS, true)
+    author: {
+      avatar: `img/avatars/user${String(index + 1).padStart(2, '0')}.png`
     },
-    'offer': {
-      'title': getRandomElementFromArray(OFFER_TITLES, true),
-      'address': `${locationLat}, ${locationLng}`,
-      'price': getRandomPositiveInteger(PRICE_MIN, PRICE_MAX),
-      'type': getRandomElementFromArray(OFFER_TYPE),
-      'rooms': getRandomPositiveInteger(ROOMS_MIN, ROOMS_MAX),
-      'guests': getRandomPositiveInteger(GUEST_MIN, GUEST_MAX),
-      'checkin': getRandomElementFromArray(TIME_VALUES),
-      'checkout': getRandomElementFromArray(TIME_VALUES),
-      'features': getRandomLengthArray(OFFER_FEATURES),
-      'description': getRandomElementFromArray(OFFER_DESCRIPTIONS, true),
-      'photos': getRandomLengthArray(OFFER_PHOTOS)
+    offer: {
+      title: getRandomElementFromArray(OFFER_TITLES, true),
+      address: `${locationLat}, ${locationLng}`,
+      price: getRandomPositiveInteger(PRICE_MIN, PRICE_MAX),
+      type: getRandomElementFromArray(OFFER_TYPE),
+      rooms: getRandomPositiveInteger(ROOMS_MIN, ROOMS_MAX),
+      guests: getRandomPositiveInteger(GUEST_MIN, GUEST_MAX),
+      checkin: getRandomElementFromArray(TIME_VALUES),
+      checkout: getRandomElementFromArray(TIME_VALUES),
+      features: getRandomLengthArray(OFFER_FEATURES),
+      description: getRandomElementFromArray(OFFER_DESCRIPTIONS, true),
+      photos: getRandomLengthArray(OFFER_PHOTOS)
     },
-    'location': {
-      'lat': locationLat,
-      'lng': locationLng
+    location: {
+      lat: locationLat,
+      lng: locationLng
     }
   };
 };
 
-const similarAdvertisements = Array.from({length: SIMILAR_ADV_COUNT}, createAdvertisement);
+/**
+ * Функция, создающая список объявлений
+ */
+const makeAdvertisements = (count) => Array.from({length: count}, (_, index) => createAdvertisement(index));
+
+const similarAdvertisements = makeAdvertisements(SIMILAR_ADV_COUNT);
