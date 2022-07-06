@@ -120,28 +120,18 @@ const getRandomElementFromArray = (array, remove = false) => {
 };
 
 /**
- * Функция, возвращающая URL-адрес аватара
- * @param k
- * @param v
- * @returns {`img/avatars/user${string}.png`}
- */
-const avatarUrlCallback = (k, v) => `img/avatars/user${String(v + 1).padStart(2, '0')}.png`;
-
-/**
  * Функция, возвращающая новый объект объявления
  * @returns {{offer: {features: *, rooms: number, address: string, checkin: (*|T|null), price: number,
  * guests: number, description: (*|T|null), title: (*|T|null), type: (*|T|null), checkout: (*|T|null), photos: *},
  * author: {avatar: (*|T|null)}, location: {lng: number, lat: number}}}
  */
-const createAdvertisement = () => {
+const createAdvertisement = (index) => {
   const locationLat = getRandomPositiveFloat(LOCATION.LAT.MIN, LOCATION.LAT.MAX, LOCATION.DIGITS);
   const locationLng = getRandomPositiveFloat(LOCATION.LNG.MIN, LOCATION.LNG.MAX, LOCATION.DIGITS);
 
-  let avatarUrls = Array.from({length: SIMILAR_ADV_COUNT}, avatarUrlCallback);
-
   return {
     author: {
-      avatar: getRandomElementFromArray(avatarUrls, true)
+      avatar: `img/avatars/user${String(index + 1).padStart(2, '0')}.png`
     },
     offer: {
       title: getRandomElementFromArray(OFFER_TITLES, true),
@@ -166,6 +156,6 @@ const createAdvertisement = () => {
 /**
  * Функция, создающая список объявлений
  */
-const makeAdvertisements = () => Array.from({length: SIMILAR_ADV_COUNT}, createAdvertisement);
+const makeAdvertisements = (count) => Array.from({length: count}, (_, index) => createAdvertisement(index));
 
-const similarAdvertisements = makeAdvertisements();
+const similarAdvertisements = makeAdvertisements(SIMILAR_ADV_COUNT);
