@@ -6,30 +6,30 @@ import {
 } from './util.js';
 
 const PRICE = {
-  MIN: 100000,
-  MAX: 10000000
+  min: 100000,
+  max: 10000000
 };
 
 const ROOMS = {
-  MIN: 1,
-  MAX: 8
+  min: 1,
+  max: 8
 };
 
 const GUEST = {
-  MIN: 2,
-  MAX: 14
+  min: 2,
+  max: 14
 };
 
 const DIGITS = 5;
 
 const LOCATION = {
-  LAT: {
-    MIN: 35.65000,
-    MAX: 35.70000
+  lat: {
+    min: 35.65000,
+    max: 35.70000
   },
-  LNG: {
-    MIN: 139.70000,
-    MAX: 139.80000
+  lng: {
+    min: 139.70000,
+    max: 139.80000
   }
 };
 
@@ -94,8 +94,8 @@ const OFFER_DESCRIPTIONS = [
  * @returns {{offer: {features: *, rooms: number, address: string, checkin: *, price: number, guests: number, description: *, title: string, type: *, checkout: *, photos: *}, author: {avatar: string}, location: {lng: number, lat: number}}}
  */
 const createAdvertisement = (index) => {
-  const locationLat = getRandomPositiveFloat(LOCATION.LAT.MIN, LOCATION.LAT.MAX, DIGITS);
-  const locationLng = getRandomPositiveFloat(LOCATION.LNG.MIN, LOCATION.LNG.MAX, DIGITS);
+  const locationLat = getRandomPositiveFloat(LOCATION.lat.min, LOCATION.lat.max, DIGITS);
+  const locationLng = getRandomPositiveFloat(LOCATION.lng.min, LOCATION.lng.max, DIGITS);
 
   return {
     author: {
@@ -104,10 +104,10 @@ const createAdvertisement = (index) => {
     offer: {
       title: OFFER_TITLES[index],
       address: `${locationLat}, ${locationLng}`,
-      price: getRandomPositiveInteger(PRICE.MIN, PRICE.MAX),
+      price: getRandomPositiveInteger(PRICE.min, PRICE.max),
       type: getRandomValueFromArray(OFFER_TYPES),
-      rooms: getRandomPositiveInteger(ROOMS.MIN, ROOMS.MAX),
-      guests: getRandomPositiveInteger(GUEST.MIN, GUEST.MAX),
+      rooms: getRandomPositiveInteger(ROOMS.min, ROOMS.max),
+      guests: getRandomPositiveInteger(GUEST.min, GUEST.max),
       checkin: getRandomValueFromArray(TIME_VALUES),
       checkout: getRandomValueFromArray(TIME_VALUES),
       features: getRandomLengthArray(OFFER_FEATURES),
