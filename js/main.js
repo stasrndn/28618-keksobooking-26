@@ -1,6 +1,5 @@
-import {makeAdvertisements} from './modules/data.js';
+import {renderAdvertisements} from './modules/map.js';
 
-const SIMILAR_ADV_COUNT = 10;
+const SIMILAR_ADV_COUNT = 1;
 
-// eslint-disable-next-line no-unused-vars
-const similarAdvertisements = makeAdvertisements(SIMILAR_ADV_COUNT);
+renderAdvertisements(SIMILAR_ADV_COUNT);
