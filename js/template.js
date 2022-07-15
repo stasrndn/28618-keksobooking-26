@@ -39,10 +39,10 @@ const createCard = (data) => {
     features.remove();
   } else {
     const featuresList = popup.querySelectorAll('.popup__feature');
-    const modificators = offer.features.map((feature) => `popup__feature--${feature}`);
+    const availableFeatures = offer.features.map((feature) => `popup__feature--${feature}`);
     featuresList.forEach((item) => {
-      const feature = item.classList[1];
-      if (!modificators.includes(feature)) {
+      const isFeatureExist = Boolean([...item.classList].filter((x) => availableFeatures.includes(x)).length);
+      if (!isFeatureExist) {
         item.remove();
       }
     });
