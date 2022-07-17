@@ -3,6 +3,8 @@ const priceField = adForm.querySelector('[name="price"]');
 const typeField = adForm.querySelector('[name="type"]');
 const roomNumberField = adForm.querySelector('[name="rooms"]');
 const capacityField = adForm.querySelector('[name="capacity"]');
+const timeinField = adForm.querySelector('[name="timein"]');
+const timeoutField = adForm.querySelector('[name="timeout"]');
 
 const MAX_PRICE = 100000;
 const NON_RESIDENTIAL_VALUE = 100;
@@ -50,6 +52,22 @@ const onPristineValidate = (evt) => {
 };
 
 
+const onTypeFieldSelectChange = (evt) => {
+  evt.preventDefault();
+  priceField.setAttribute('placeholder', minPrices[evt.target.value]);
+};
+
+
+const onTimeFieldsSynchronize = (evt) => {
+  evt.preventDefault();
+  if (evt.target.getAttribute('name') === 'timein') {
+    timeoutField.value = evt.target.value;
+  } else {
+    timeinField.value = evt.target.value;
+  }
+};
+
+
 const validatePriceField = () => {
   const validate = (value) => value <= MAX_PRICE && value >= minPrices[typeField.value];
   const priceFieldErrorMessage = () => (priceField.value > MAX_PRICE)
@@ -77,12 +95,17 @@ const validateCapacityField = () => {
 
 
 const addValidateForm = () => {
+  priceField.setAttribute('placeholder', minPrices[typeField.value]);
+
   validatePriceField();
   validateRoomNumberField();
   validateCapacityField();
 
   roomNumberField.addEventListener('change', onPristineValidate);
   capacityField.addEventListener('change', onPristineValidate);
+  typeField.addEventListener('change', onTypeFieldSelectChange);
+  timeinField.addEventListener('change', onTimeFieldsSynchronize);
+  timeoutField.addEventListener('change', onTimeFieldsSynchronize);
 
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
