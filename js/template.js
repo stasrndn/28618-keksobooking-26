@@ -72,19 +72,7 @@ const createCard = (data) => {
 
   avatar.src = author.avatar;
 
-  return cardTemplate;
+  return popup;
 };
 
-const render = (items) => {
-  const map = document.querySelector('#map-canvas');
-  const fragmentContainer = document.createDocumentFragment();
-
-  items.forEach((item) => {
-    const card = createCard(item);
-    fragmentContainer.appendChild(card);
-  });
-
-  map.appendChild(fragmentContainer);
-};
-
-export {render};
+export {createCard};
