@@ -1,9 +1,10 @@
 import {enableActiveState} from './form.js';
 import {createCard} from './template.js';
 
-const addressField = document.querySelector('[name="address"]');
 const ZOOM_DEFAULT = 10;
 const DECIMAL_PLACES = 5;
+
+const addressField = document.querySelector('[name="address"]');
 const coordsDefault = {
   lat: 35.68949,
   lng: 139.69171
