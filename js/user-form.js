@@ -5,10 +5,12 @@ const roomNumberField = adForm.querySelector('[name="rooms"]');
 const capacityField = adForm.querySelector('[name="capacity"]');
 const timeinField = adForm.querySelector('[name="timein"]');
 const timeoutField = adForm.querySelector('[name="timeout"]');
+const adFormSlider = adForm.querySelector('.ad-form__slider');
 
 const MAX_PRICE = 100000;
 const NON_RESIDENTIAL_VALUE = 100;
 const NOT_FOR_GUESTS = 100;
+const SLIDER_STEP = 10;
 
 const minPrices = {
   bungalow: 0,
@@ -94,12 +96,39 @@ const validateCapacityField = () => {
 };
 
 
+const createPriceSlider = () => {
+  noUiSlider.create(adFormSlider, {
+    range: {
+      min: Number(priceField.min),
+      max: Number(priceField.max)
+    },
+    start: Number(priceField.min),
+    step: SLIDER_STEP,
+    connect: 'lower',
+    format: {
+      to: (value) => parseFloat(value).toFixed(0),
+      from: (value) => parseFloat(value).toFixed(0)
+    }
+  });
+
+  adFormSlider.noUiSlider.on('update', () => {
+    priceField.value = adFormSlider.noUiSlider.get();
+  });
+
+  priceField.addEventListener('change', (evt) => {
+    evt.preventDefault();
+    adFormSlider.noUiSlider.set(evt.target.value);
+  });
+};
+
+
 const addValidateForm = () => {
   priceField.setAttribute('placeholder', minPrices[typeField.value]);
 
   validatePriceField();
   validateRoomNumberField();
   validateCapacityField();
+  createPriceSlider();
 
   roomNumberField.addEventListener('change', onPristineValidate);
   capacityField.addEventListener('change', onPristineValidate);
