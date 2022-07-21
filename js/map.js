@@ -1,9 +1,10 @@
-import {enableActiveState} from './form.js';
+import {changeStateAdForm} from './form-state.js';
 import {createCard} from './template.js';
 
-const addressField = document.querySelector('[name="address"]');
 const ZOOM_DEFAULT = 10;
 const DECIMAL_PLACES = 5;
+
+const addressField = document.querySelector('[name="address"]');
 const coordsDefault = {
   lat: 35.68949,
   lng: 139.69171
@@ -36,11 +37,9 @@ L.tileLayer(
   },
 ).addTo(map);
 
-
 const setAddress = (lat, lng) => {
   addressField.value = `Широта: ${lat}, долгота: ${lng}`;
 };
-
 
 mainPinMarker.addTo(map);
 mainPinMarker.on('move', (evt) => {
@@ -48,15 +47,13 @@ mainPinMarker.on('move', (evt) => {
   setAddress(coords.lat.toFixed(DECIMAL_PLACES), coords.lng.toFixed(DECIMAL_PLACES));
 });
 
-
 const createMap = () => {
   map
     .on('load', () => {
-      enableActiveState();
+      changeStateAdForm(true);
     })
     .setView(coordsDefault, ZOOM_DEFAULT);
 };
-
 
 const createMarker = (item) => {
   const {lat, lng} = item.location;
@@ -74,12 +71,19 @@ const createMarker = (item) => {
     .bindPopup(createCard(item));
 };
 
-
 const renderOnMap = (items) => {
   items.forEach((item) => {
     createMarker(item);
   });
 };
 
+const setMapOriginalState = () => {
+  mainPinMarker.setLatLng(coordsDefault);
+  map.closePopup();
+};
 
-export {createMap, renderOnMap};
+export {
+  createMap,
+  renderOnMap,
+  setMapOriginalState
+};

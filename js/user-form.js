@@ -1,3 +1,8 @@
+import {showSuccess, showError} from './util.js';
+import {resetMapFilterForm} from './form-state.js';
+import {setMapOriginalState} from './map.js';
+import {sendData} from './api.js';
+
 const adForm = document.querySelector('.ad-form');
 const priceField = adForm.querySelector('[name="price"]');
 const typeField = adForm.querySelector('[name="type"]');
@@ -6,6 +11,7 @@ const capacityField = adForm.querySelector('[name="capacity"]');
 const timeinField = adForm.querySelector('[name="timein"]');
 const timeoutField = adForm.querySelector('[name="timeout"]');
 const adFormSlider = adForm.querySelector('.ad-form__slider');
+const adFormSubmitButton = adForm.querySelector('.ad-form__submit');
 
 const MAX_PRICE = 100000;
 const NON_RESIDENTIAL_VALUE = 100;
@@ -47,29 +53,6 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'form__error'
 });
 
-
-const onPristineValidate = (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-};
-
-
-const onTypeFieldSelectChange = (evt) => {
-  evt.preventDefault();
-  priceField.setAttribute('placeholder', minPrices[evt.target.value]);
-};
-
-
-const onTimeFieldsSynchronize = (evt) => {
-  evt.preventDefault();
-  if (evt.target.getAttribute('name') === 'timein') {
-    timeoutField.value = evt.target.value;
-  } else {
-    timeinField.value = evt.target.value;
-  }
-};
-
-
 const validatePriceField = () => {
   const validate = (value) => value <= MAX_PRICE && value >= minPrices[typeField.value];
   const priceFieldErrorMessage = () => (priceField.value > MAX_PRICE)
@@ -78,14 +61,12 @@ const validatePriceField = () => {
   pristine.addValidator(priceField, validate, priceFieldErrorMessage);
 };
 
-
 const validateRoomNumberField = () => {
   const validate = (value) => maxCapacity[value].includes(+capacityField.value);
   const roomNumberErrorMessage = () => (+roomNumberField.value === NON_RESIDENTIAL_VALUE)
     ? 'Не для гостей' : 'Слишком много гостей';
   pristine.addValidator(roomNumberField, validate, roomNumberErrorMessage);
 };
-
 
 const validateCapacityField = () => {
   const validate = (value) => maxCapacity[roomNumberField.value].includes(+value);
@@ -95,14 +76,13 @@ const validateCapacityField = () => {
   pristine.addValidator(capacityField, validate, capacityFieldErrorMessage);
 };
 
-
 const createPriceSlider = () => {
   noUiSlider.create(adFormSlider, {
     range: {
       min: Number(priceField.min),
       max: Number(priceField.max)
     },
-    start: Number(priceField.min),
+    start: minPrices[typeField.value],
     step: SLIDER_STEP,
     connect: 'lower',
     format: {
@@ -121,25 +101,69 @@ const createPriceSlider = () => {
   });
 };
 
-
 const addValidateForm = () => {
-  priceField.setAttribute('placeholder', minPrices[typeField.value]);
-
   validatePriceField();
   validateRoomNumberField();
   validateCapacityField();
   createPriceSlider();
+
+  const onPristineValidate = (evt) => {
+    evt.preventDefault();
+    pristine.validate();
+  };
+
+  const onTypeFieldSelectChange = (evt) => {
+    evt.preventDefault();
+    adFormSlider.noUiSlider.set(minPrices[evt.target.value]);
+  };
+
+  const onTimeFieldsSynchronize = (evt) => {
+    evt.preventDefault();
+    if (evt.target.getAttribute('name') === 'timein') {
+      timeoutField.value = evt.target.value;
+    } else {
+      timeinField.value = evt.target.value;
+    }
+  };
 
   roomNumberField.addEventListener('change', onPristineValidate);
   capacityField.addEventListener('change', onPristineValidate);
   typeField.addEventListener('change', onTypeFieldSelectChange);
   timeinField.addEventListener('change', onTimeFieldsSynchronize);
   timeoutField.addEventListener('change', onTimeFieldsSynchronize);
-
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    pristine.validate();
-  });
 };
 
-export {addValidateForm};
+const formSendedSuccess = () => {
+  adFormSubmitButton.disabled = false;
+  setMapOriginalState();
+  resetMapFilterForm();
+  showSuccess();
+};
+
+const onSubmitForm = (evt) => {
+  evt.preventDefault();
+  const isValidated = pristine.validate();
+  if (isValidated) {
+    const formData = new FormData(evt.target);
+    adFormSubmitButton.disabled = true;
+    sendData(formSendedSuccess, showError, formData);
+  }
+};
+
+const onResetForm = () => {
+  adForm.reset();
+  adFormSlider.noUiSlider.reset();
+  pristine.reset();
+  resetMapFilterForm();
+  setMapOriginalState();
+};
+
+const initUserForm = () => {
+  priceField.setAttribute('placeholder', minPrices[typeField.value]);
+  addValidateForm();
+
+  adForm.addEventListener('submit', onSubmitForm);
+  adForm.addEventListener('reset', onResetForm);
+};
+
+export {initUserForm};

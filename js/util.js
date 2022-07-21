@@ -1,52 +1,67 @@
-/**
- * Функция, возвращающая случайной целое число из заданного диапазона
- * @param a
- * @param b
- * @returns {number}
- */
-const getRandomPositiveInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-  const result = Math.random() * (upper - lower + 1) + lower;
+const SUCCESS_MESSAGE_TIME_DISPLAY = 3000;
+const POPUP_BUTTON_TEXT = 'Закрыть окно';
 
-  return Math.floor(result);
+const body = document.querySelector('body');
+const successPopupTemplate = document.querySelector('#success').content;
+const errorPopupTemplate = document.querySelector('#error').content;
+
+let popupContainer = null;
+let popupMessage = null;
+let popupButton = null;
+
+const isEscapeKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+const isClick = (evt) => evt.type === 'click';
+
+const onDocumentPopup = (evt) => {
+  if (isEscapeKey(evt)) {
+    unBindDocumentEvents();
+    hidePopup();
+  } else if (isClick(evt)) {
+    unBindDocumentEvents();
+    hidePopup();
+  }
 };
 
-/**
- * Функция, возвращающая случайной дробное число из заданного диапазона
- * @param a - дробное число
- * @param b - дробное число
- * @param digits - требуемое количество знаков после точки
- * @returns {number}
- */
-const getRandomPositiveFloat = (a, b, digits = 1) => {
-  const lower = Math.min(Math.abs(a), Math.abs(b));
-  const upper = Math.max(Math.abs(a), Math.abs(b));
-  const result = Math.random() * (upper - lower) + lower;
+function bindDocumentEvents () {
+  document.addEventListener('click', onDocumentPopup);
+  document.addEventListener('keydown', onDocumentPopup);
+}
 
-  return +result.toFixed(digits);
+function unBindDocumentEvents() {
+  document.removeEventListener('click', onDocumentPopup);
+  document.removeEventListener('keydown', onDocumentPopup);
+}
+
+function showPopup (element) {
+  body.appendChild(element);
+  bindDocumentEvents();
+}
+
+function hidePopup () {
+  body.removeChild(popupContainer);
+}
+
+const showSuccess = () => {
+  popupContainer = successPopupTemplate.cloneNode(true).querySelector('.success');
+  setTimeout(() => {
+    hidePopup();
+  }, SUCCESS_MESSAGE_TIME_DISPLAY);
+
+  showPopup(popupContainer);
 };
 
-/**
- * Функция, возвращающая случайный элемент массива
- * @param array
- * @returns {*}
- */
-const getRandomValueFromArray = (array) => {
-  const index = getRandomPositiveInteger(0, array.length - 1);
-  return array[index];
-};
+const showError = (message) => {
+  popupContainer = errorPopupTemplate.cloneNode(true).querySelector('.error');
+  popupMessage = popupContainer.querySelector('.error__message');
+  popupButton = popupContainer.querySelector('.error__button');
 
-/**
- * Функция, возвращающая массив случайной длины из переданного массива
- * @param array
- * @returns {*}
- */
-const getRandomLengthArray = (array) => array.slice(getRandomPositiveInteger(0, array.length));
+  popupMessage.textContent = message;
+  popupButton.textContent = POPUP_BUTTON_TEXT;
+
+  showPopup(popupContainer);
+};
 
 export {
-  getRandomPositiveInteger,
-  getRandomPositiveFloat,
-  getRandomValueFromArray,
-  getRandomLengthArray
+  showError,
+  showSuccess
 };
