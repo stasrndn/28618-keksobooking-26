@@ -35,7 +35,7 @@ const createCard = (data) => {
   capacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
-  if (!offer.features.length) {
+  if (!offer.features) {
     features.remove();
   } else {
     const featuresList = popup.querySelectorAll('.popup__feature');
@@ -48,7 +48,7 @@ const createCard = (data) => {
     });
   }
 
-  if (!offer.description.length) {
+  if (!offer.description) {
     description.remove();
   } else {
     description.textContent = offer.description;

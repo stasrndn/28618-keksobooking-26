@@ -1,14 +1,17 @@
-import {makeAdvertisements} from './data.js';
-import {disableActiveState} from './form.js';
-import {addValidateForm} from './user-form.js';
+import {showError} from './util.js';
+import {changeStateAdForm, changeStateMapFilterForm} from './form-state.js';
+import {initUserForm} from './user-form.js';
 import {createMap, renderOnMap} from './map.js';
+import {getData, prepareData} from './api.js';
 
-const SIMILAR_ADV_COUNT = 3;
-const similarAdvertisements = makeAdvertisements(SIMILAR_ADV_COUNT);
-
-
-disableActiveState();
-addValidateForm();
-
+changeStateAdForm(false);
+initUserForm();
 createMap();
-renderOnMap(similarAdvertisements);
+
+getData((items) => {
+  const similarAdvertisements = prepareData(items);
+  renderOnMap(similarAdvertisements);
+  changeStateMapFilterForm(true);
+}, showError);
+
+
