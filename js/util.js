@@ -85,5 +85,7 @@ const showError = (message) => {
 
 export {
   showError,
-  showSuccess
+  showSuccess,
+  debounce,
+  throttle
 };

@@ -1,6 +1,5 @@
 const URL_GET_DATA = 'https://26.javascript.pages.academy/keksobooking/data';
 const URL_SEND_DATA = 'https://26.javascript.pages.academy/keksobooking';
-const ITEMS_PER_PORTION = 10;
 
 const getData = (onSuccess, onFail) => {
   fetch(URL_GET_DATA)
@@ -33,10 +32,7 @@ const sendData = (onSuccess, onFail, formData) => {
     });
 };
 
-const prepareData = (items) => items.slice(0, ITEMS_PER_PORTION);
-
 export {
   getData,
   sendData,
-  prepareData
 };

@@ -54,7 +54,7 @@ const createCard = (data) => {
     description.textContent = offer.description;
   }
 
-  if (!offer.photos.length) {
+  if (!offer.photos) {
     photos.remove();
   } else {
     const photosFragment = document.createDocumentFragment();

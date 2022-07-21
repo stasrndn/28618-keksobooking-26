@@ -77,6 +77,10 @@ const renderOnMap = (items) => {
   });
 };
 
+const clearMarkerGroup = () => {
+  markerGroup.clearLayers();
+};
+
 const setMapOriginalState = () => {
   mainPinMarker.setLatLng(coordsDefault);
   map.closePopup();
@@ -85,5 +89,6 @@ const setMapOriginalState = () => {
 export {
   createMap,
   renderOnMap,
+  clearMarkerGroup,
   setMapOriginalState
 };
