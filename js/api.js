@@ -8,7 +8,7 @@ const getData = (onSuccess, onFail) => {
       onSuccess(items);
     })
     .catch(() => {
-      onFail('Не удалось загрузить данные. Попробуйте перезагрузить страницу');
+      onFail();
     });
 };
 

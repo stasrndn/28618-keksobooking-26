@@ -1,22 +1,41 @@
-import {showError, debounce} from './util.js';
-import {changeStateAdForm, changeStateMapFilterForm} from './form-state.js';
-import {initUserForm} from './user-form.js';
-import {createMap, renderOnMap} from './map.js';
+import './card.js';
 import {getData} from './api.js';
-import {applyFilter, bindFormFilter} from './filter.js';
-import {uploadAvatarFile, uploadHousePhoto} from './image-uploader.js';
+import {showMessage} from './popup-message.js';
+import {applyCardsFilter} from './filter.js';
+import {enableAdForm, disableAdForm, addAdFormSubmitListener, adFormAddressField} from './ad-form.js';
+import {enableFilterForm, disableFilterForm, addChangeEventFilterForm, resetFilterForm} from './filter-form.js';
+import {
+  addMapToCanvas,
+  addMarkersToMap,
+  addMainPinMarkerToMap,
+  addMoveEventMainPinMarker,
+  setMainPinMarkerCoorsToNode,
+  clearMarkersOnMap,
+  setMainPinMarkerDefaultCoords,
+  setMapDefaultCoords,
+} from './map.js';
 
-const RERENDER_DELAY = 500;
 
-changeStateAdForm(false);
-initUserForm();
-createMap();
+disableAdForm();
+disableFilterForm();
 
-getData((items) => {
-  renderOnMap(applyFilter(items));
-  changeStateMapFilterForm(true);
-  bindFormFilter(debounce(() => renderOnMap(applyFilter(items)), RERENDER_DELAY));
-}, showError);
+addMapToCanvas(() => {
+  enableAdForm();
+  enableFilterForm();
+  addAdFormSubmitListener(() => {
+    setMainPinMarkerDefaultCoords();
+    setMapDefaultCoords();
+    resetFilterForm();
+    clearMarkersOnMap();
+  });
+});
 
-uploadAvatarFile();
-uploadHousePhoto();
+getData((cards) => {
+  addMarkersToMap(applyCardsFilter(cards));
+  addMainPinMarkerToMap();
+  addMoveEventMainPinMarker(() => setMainPinMarkerCoorsToNode(adFormAddressField));
+  addChangeEventFilterForm(() => {
+    clearMarkersOnMap();
+    addMarkersToMap(applyCardsFilter(cards));
+  });
+}, () => showMessage('error', 'Не удалось загрузить данные. Перезагрузите страницу'));
