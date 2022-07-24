@@ -2,6 +2,7 @@ import './card.js';
 import {getData} from './api.js';
 import {showMessage} from './popup-message.js';
 import {applyCardsFilter} from './filter.js';
+import {debounce} from './util.js';
 import {enableAdForm, disableAdForm, addAdFormSubmitListener, adFormAddressField} from './ad-form.js';
 import {enableFilterForm, disableFilterForm, addChangeEventFilterForm, resetFilterForm} from './filter-form.js';
 import {
@@ -34,8 +35,8 @@ getData((cards) => {
   addMarkersToMap(applyCardsFilter(cards));
   addMainPinMarkerToMap();
   addMoveEventMainPinMarker(() => setMainPinMarkerCoorsToNode(adFormAddressField));
-  addChangeEventFilterForm(() => {
+  addChangeEventFilterForm(debounce(() => {
     clearMarkersOnMap();
     addMarkersToMap(applyCardsFilter(cards));
-  });
+  }));
 }, () => showMessage('error', 'Не удалось загрузить данные. Перезагрузите страницу'));
