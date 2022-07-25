@@ -16,6 +16,7 @@ import {
   setMapDefaultCoords,
 } from './map.js';
 
+const RERENDER_DELAY = 500;
 
 disableAdForm();
 disableFilterForm();
@@ -38,5 +39,5 @@ getData((cards) => {
   addChangeEventFilterForm(debounce(() => {
     clearMarkersOnMap();
     addMarkersToMap(applyCardsFilter(cards));
-  }));
+  }, RERENDER_DELAY));
 }, () => showMessage('error', 'Не удалось загрузить данные. Перезагрузите страницу'));
