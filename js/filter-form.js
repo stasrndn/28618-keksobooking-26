@@ -3,7 +3,7 @@ const DEFAULT_SELECT_VALUE = 'any';
 
 // Минимальное и максимальное значения
 // поля стоимости
-const HousingPriceOptions = {
+const housingPriceOptions = {
   low: {
     min: 0,
     max: 9999
@@ -65,12 +65,12 @@ const addChangeEventFilterForm = (cb) => {
 /**
  * Вернуть значение минимальной цены
  */
-const getHousingMinPrice = () => HousingPriceOptions[filterFormHousingPrice.value].min;
+const getHousingMinPrice = () => housingPriceOptions[filterFormHousingPrice.value].min;
 
 /**
  * Вернуть значение максимальной цены
  */
-const getHousingMaxPrice = () => HousingPriceOptions[filterFormHousingPrice.value].max;
+const getHousingMaxPrice = () => housingPriceOptions[filterFormHousingPrice.value].max;
 
 /**
  * Проверка по типу жилья

@@ -1,7 +1,7 @@
 import {getDecOfNum} from './util.js';
 
 // Типы объектов на карточках
-const CardTypes = {
+const сardTypes = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
@@ -31,7 +31,7 @@ const getAdCard = (author, offer) => {
   title.textContent = offer.title;
   address.textContent = offer.address;
   price.textContent = `${offer.price} ₽/ночь`;
-  type.textContent = CardTypes[offer.type];
+  type.textContent = сardTypes[offer.type];
   capacity.textContent = `${offer.rooms} ${getDecOfNum(offer.rooms, ['комната', 'комнаты', 'комнат'])} для ${offer.guests} ${getDecOfNum(offer.guests, ['гостя', 'гостей', 'гостей'])}`;
   time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
