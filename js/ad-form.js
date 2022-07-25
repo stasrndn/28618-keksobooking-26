@@ -227,6 +227,8 @@ const addAdFormResetListener = () => {
   const onResetAdForm = () => {
     adFormAvatarField.src = DEFAULT_AVATAR_URL;
     adFormPhotoField.innerHTML = '';
+    adFormSlider.noUiSlider.reset();
+    pristine.reset();
   };
   adForm.addEventListener('reset', onResetAdForm);
 };
