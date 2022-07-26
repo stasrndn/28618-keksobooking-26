@@ -7,9 +7,9 @@ const ZOOM_DEFAULT = 10;
 const DECIMAL_PLACES = 5;
 
 // Координаты по умолчанию
-const coordsDefault = {
-  lat: 35.68949,
-  lng: 139.69171
+const CoordsDefault = {
+  LAT: 35.68949,
+  LNG: 139.69171
 };
 
 // Объект карты
@@ -25,8 +25,8 @@ const mainPinIcon = L.icon({
 // Настройки большой метки на карте
 const mainPinMarker = L.marker(
   {
-    lng: coordsDefault.lng,
-    lat: coordsDefault.lat
+    lng: CoordsDefault.LNG,
+    lat: CoordsDefault.LAT
   },
   {
     draggable: true,
@@ -36,7 +36,10 @@ const mainPinMarker = L.marker(
 
 // Координаты большой метки после
 // её перемещения по карте
-let mainPinMarkerCoords = coordsDefault;
+let mainPinMarkerCoords = {
+  lat: CoordsDefault.LAT,
+  lng: CoordsDefault.LNG
+};
 
 // Настройки иконки меток объектов на карте
 const pinIcon = L.icon({
@@ -62,11 +65,12 @@ const markersGroup = L.layerGroup();
  * @param cb
  */
 const addMapToCanvas = (cb) => {
+  const getDefaultCoords = () => ({lat: CoordsDefault.LAT, lng: CoordsDefault.LNG});
   map
     .on('load', () => {
       cb();
     })
-    .setView(coordsDefault, ZOOM_DEFAULT);
+    .setView(getDefaultCoords(), ZOOM_DEFAULT);
 };
 
 /**
@@ -108,8 +112,8 @@ const addMainPinMarkerToMap = () => {
 const setMainPinMarkerDefaultCoords = () => {
   mainPinMarker.setLatLng(
     {
-      lng: coordsDefault.lng,
-      lat: coordsDefault.lat
+      lng: CoordsDefault.LNG,
+      lat: CoordsDefault.LAT
     }
   );
 };
@@ -120,8 +124,8 @@ const setMainPinMarkerDefaultCoords = () => {
 const setMapDefaultCoords = () => {
   map.setView(
     {
-      lat: coordsDefault.lat,
-      lng: coordsDefault.lng
+      lat: CoordsDefault.LAT,
+      lng: CoordsDefault.LNG
     }
   );
 };
