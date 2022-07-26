@@ -28,18 +28,14 @@ const filterFormHousingGuests = filterForm.querySelector('[name="housing-guests"
 /**
  * Включение/выключение активного состояния формы фильтрации объявлений
  */
-const setStateFilterForm = (state = 'enabled') => {
-  if (state === 'enabled') {
-    filterForm.classList.remove('ad-form--disabled');
-    for (const child of filterFormChildren) {
-      child.disabled = false;
-    }
-  }
-  if (state === 'disabled') {
+const setStateFilterForm = (disabled) => {
+  if (disabled) {
     filterForm.classList.add('ad-form--disabled');
-    for (const child of filterFormChildren) {
-      child.disabled = true;
-    }
+  } else {
+    filterForm.classList.remove('ad-form--disabled');
+  }
+  for (const child of filterFormChildren) {
+    child.disabled = disabled;
   }
 };
 

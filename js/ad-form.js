@@ -55,33 +55,22 @@ const pristine = new Pristine(adForm, {
 /**
  * Включение/выключение активного состояния формы отправки объявления
  */
-const setStateAdForm = (state = 'enabled') => {
-  if (state === 'enabled') {
-    adForm.classList.remove('ad-form--disabled');
-    adFormFieldset.forEach((fieldset) => {
-      fieldset.disabled = false;
-    });
-  }
-  if (state === 'disabled') {
+const setStateAdForm = (disabled) => {
+  if (disabled) {
     adForm.classList.add('ad-form--disabled');
-    adFormFieldset.forEach((fieldset) => {
-      fieldset.disabled = true;
-    });
+  } else {
+    adForm.classList.remove('ad-form--disabled');
   }
+  adFormFieldset.forEach((fieldset) => {
+    fieldset.disabled = disabled;
+  });
 };
 
 /**
  * Включение/выключение активного состояния кнопки отправки формы
  */
-const setStateAdFormSubmitButton = (state = 'enabled') => {
-  switch (state) {
-    case 'enabled':
-      adFormSubmitButton.disabled = false;
-      break;
-    case 'disabled':
-      adFormSubmitButton.disabled = true;
-      break;
-  }
+const setStateAdFormSubmitButton = (disabled) => {
+  adFormSubmitButton.disabled = disabled;
 };
 
 /**
@@ -277,10 +266,10 @@ const addAdFormSubmitListener = (cb) => {
     const isValidated = pristine.validate();
     if (isValidated) {
       const formData = new FormData(evt.target);
-      setStateAdFormSubmitButton('disabled');
+      setStateAdFormSubmitButton(true);
       sendData(
         () => {
-          setStateAdFormSubmitButton();
+          setStateAdFormSubmitButton(false);
           showMessage('success', 'Данные успешно отправлены');
           resetAdForm();
         },
