@@ -31,7 +31,6 @@ const RatioRoomsSeats = {
 const adForm = document.querySelector('.ad-form');
 const adFormFieldset = adForm.querySelectorAll('fieldset');
 const adFormSubmitButton = adForm.querySelector('[type="submit"]');
-const adFormResetButton = adForm.querySelector('[type="reset"]');
 const adFormPriceField = adForm.querySelector('[name="price"]');
 const adFormSlider = adForm.querySelector('.ad-form__slider');
 const adFormTypeField = adForm.querySelector('[name="type"]');
@@ -234,6 +233,7 @@ const addAdFormResetListener = (cb) => {
     adFormPhotoField.innerHTML = '';
     adFormSlider.noUiSlider.reset();
     pristine.reset();
+    setValueAdFormPriceField(housingTypeMinPrices['flat']);
     cb();
   };
   adForm.addEventListener('reset', onResetAdForm);
@@ -261,7 +261,6 @@ validateAdFormRoomsField();
 validateAdFormCapacityField();
 addChangeEventAdFormTypeField();
 addSliderToAdFormPriceField();
-setValueAdFormPriceField(housingTypeMinPrices[adFormTypeField.value]);
 addChangeEventAdFormTimeInField();
 addChangeEventAdFormTimeOutField();
 addChangeEventAdFormRoomsField();
