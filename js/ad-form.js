@@ -98,10 +98,10 @@ const resetAdForm = () => {
  */
 const validateAdFormPriceField = () => {
   const validate = (value) => value <= MAX_PRICE && value >= housingTypeMinPrices[adFormTypeField.value];
-  const errorMessage = () => (adFormPriceField.value > MAX_PRICE)
+  const getErrorMessage = () => (adFormPriceField.value > MAX_PRICE)
     ? `Стоимость ${housingTypeNames[adFormTypeField.value]} не более ${MAX_PRICE} руб.`
     : `Стоимость ${housingTypeNames[adFormTypeField.value]} не менее ${housingTypeMinPrices[adFormTypeField.value]}`;
-  pristine.addValidator(adFormPriceField, validate, errorMessage);
+  pristine.addValidator(adFormPriceField, validate, getErrorMessage);
 };
 
 /**
@@ -189,10 +189,10 @@ const addChangeEventAdFormTimeOutField = () => {
  */
 const validateAdFormRoomsField = () => {
   const validate = (value) => RatioRoomsSeats[value].includes(+adFormCapacityField.value);
-  const errorMessage = () => (+adFormRoomsField.value === MAX_ROOM_OPTION_VALUE)
+  const getErrorMessage = () => (+adFormRoomsField.value === MAX_ROOM_OPTION_VALUE)
     ? 'Не для размещения гостей'
     : 'Нельзя поселить столько гостей';
-  pristine.addValidator(adFormRoomsField, validate, errorMessage);
+  pristine.addValidator(adFormRoomsField, validate, getErrorMessage);
 };
 
 /**
@@ -209,10 +209,10 @@ const addChangeEventAdFormRoomsField = () => {
  */
 const validateAdFormCapacityField = () => {
   const validate = (value) => RatioRoomsSeats[adFormRoomsField.value].includes(+value);
-  const errorMessage = () => (+adFormRoomsField.value === MAX_ROOM_OPTION_VALUE)
+  const getErrorMessage = () => (+adFormRoomsField.value === MAX_ROOM_OPTION_VALUE)
     ? 'Нельзя размещать гостей'
     : 'Слишком мало комнат';
-  pristine.addValidator(adFormCapacityField, validate, errorMessage);
+  pristine.addValidator(adFormCapacityField, validate, getErrorMessage);
 };
 
 /**
