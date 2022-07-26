@@ -76,7 +76,7 @@ const addMapToCanvas = (cb) => {
  */
 const setMainPinMarkerCoorsToNode = (node) => {
   if (node.type === 'text') {
-    node.value = `Широта: ${mainPinMarkerCoords.lat}, долгота: ${mainPinMarkerCoords.lng}`;
+    node.value = `${mainPinMarkerCoords.lat}, ${mainPinMarkerCoords.lng}`;
   }
 };
 
