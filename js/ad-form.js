@@ -199,7 +199,9 @@ const validateAdFormRoomsField = () => {
  * Добавляет обработчик на изменение поля "Количество комнат"
  */
 const addChangeEventAdFormRoomsField = () => {
-  adFormRoomsField.addEventListener('change', () => pristine.validate);
+  adFormRoomsField.addEventListener('change', () => {
+    pristine.validate();
+  });
 };
 
 /**
@@ -217,7 +219,9 @@ const validateAdFormCapacityField = () => {
  * Добавляет обработчик на изменение поля "Количество мест"
  */
 const addChangeEventAdFormCapacityField = () => {
-  adFormCapacityField.addEventListener('change', () => pristine.validate);
+  adFormCapacityField.addEventListener('change', () => {
+    pristine.validate();
+  });
 };
 
 /**
