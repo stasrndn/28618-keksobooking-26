@@ -7,14 +7,14 @@ const NO_UI_SLIDER_STEP = 10;
 const NO_UI_SLIDER_DECIMAL_PLACES = 0;
 const MAX_ROOM_OPTION_VALUE = 100;
 const DEFAULT_AVATAR_URL = 'img/muffin-grey.svg';
-const housingTypeMinPrices = {
+const HousingTypeMinPrices = {
   bungalow: 0,
   flat: 1000,
   hotel: 3000,
   house: 5000,
   palace: 10000
 };
-const housingTypeNames = {
+const HousingTypeNames = {
   bungalow: 'бунгало',
   flat: 'квартиры',
   hotel: 'отеля',
@@ -97,10 +97,10 @@ const resetAdForm = () => {
  * Добавляет валидацию для поля "Цена за ночь"
  */
 const validateAdFormPriceField = () => {
-  const validate = (value) => value <= MAX_PRICE && value >= housingTypeMinPrices[adFormTypeField.value];
+  const validate = (value) => value <= MAX_PRICE && value >= HousingTypeMinPrices[adFormTypeField.value];
   const getErrorMessage = () => (adFormPriceField.value > MAX_PRICE)
-    ? `Стоимость ${housingTypeNames[adFormTypeField.value]} не более ${MAX_PRICE} руб.`
-    : `Стоимость ${housingTypeNames[adFormTypeField.value]} не менее ${housingTypeMinPrices[adFormTypeField.value]}`;
+    ? `Стоимость ${HousingTypeNames[adFormTypeField.value]} не более ${MAX_PRICE} руб.`
+    : `Стоимость ${HousingTypeNames[adFormTypeField.value]} не менее ${HousingTypeMinPrices[adFormTypeField.value]}`;
   pristine.addValidator(adFormPriceField, validate, getErrorMessage);
 };
 
@@ -134,7 +134,7 @@ const addSliderToAdFormPriceField = () => {
         min: Number(adFormPriceField.min),
         max: Number(adFormPriceField.max)
       },
-      start: housingTypeMinPrices[adFormTypeField.value],
+      start: HousingTypeMinPrices[adFormTypeField.value],
       step: NO_UI_SLIDER_STEP,
       connect: 'lower',
       format: {
@@ -161,7 +161,7 @@ const addUpdateEventAdFormSlider = () => {
  */
 const addChangeEventAdFormTypeField = () => {
   adFormTypeField.addEventListener('change', () => {
-    setValueAdFormPriceField(housingTypeMinPrices[adFormTypeField.value]);
+    setValueAdFormPriceField(HousingTypeMinPrices[adFormTypeField.value]);
     pristine.validate();
   });
 };
@@ -233,7 +233,7 @@ const addAdFormResetListener = (cb) => {
     adFormPhotoField.innerHTML = '';
     adFormSlider.noUiSlider.reset();
     pristine.reset();
-    setValueAdFormPriceField(housingTypeMinPrices['flat']);
+    setValueAdFormPriceField(HousingTypeMinPrices['flat']);
     cb();
   };
   adForm.addEventListener('reset', onResetAdForm);
