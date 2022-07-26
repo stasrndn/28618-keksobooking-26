@@ -53,37 +53,35 @@ const pristine = new Pristine(adForm, {
 });
 
 /**
- * Включение активного состояния формы отправки объявления
+ * Включение/выключение активного состояния формы отправки объявления
  */
-const enableAdForm = () => {
-  adForm.classList.remove('ad-form--disabled');
-  adFormFieldset.forEach((fieldset) => {
-    fieldset.disabled = false;
-  });
+const setStateAdForm = (state = 'enabled') => {
+  if (state === 'enabled') {
+    adForm.classList.remove('ad-form--disabled');
+    adFormFieldset.forEach((fieldset) => {
+      fieldset.disabled = false;
+    });
+  }
+  if (state === 'disabled') {
+    adForm.classList.add('ad-form--disabled');
+    adFormFieldset.forEach((fieldset) => {
+      fieldset.disabled = true;
+    });
+  }
 };
 
 /**
- * Включение неактивного состояния формы отправки объявления
+ * Включение/выключение активного состояния кнопки отправки формы
  */
-const disableAdForm = () => {
-  adForm.classList.add('ad-form--disabled');
-  adFormFieldset.forEach((fieldset) => {
-    fieldset.disabled = true;
-  });
-};
-
-/**
- * Включение активного состояния кнопки отправки формы
- */
-const enableAdFormSubmitButton = () => {
-  adFormSubmitButton.disabled = false;
-};
-
-/**
- * Включение неактивного состояния кнопки отправки формы
- */
-const disableAdFormSubmitButton = () => {
-  adFormSubmitButton.disabled = true;
+const setStateAdFormSubmitButton = (state = 'enabled') => {
+  switch (state) {
+    case 'enabled':
+      adFormSubmitButton.disabled = false;
+      break;
+    case 'disabled':
+      adFormSubmitButton.disabled = true;
+      break;
+  }
 };
 
 /**
@@ -279,10 +277,10 @@ const addAdFormSubmitListener = (cb) => {
     const isValidated = pristine.validate();
     if (isValidated) {
       const formData = new FormData(evt.target);
-      disableAdFormSubmitButton();
+      setStateAdFormSubmitButton('disabled');
       sendData(
         () => {
-          enableAdFormSubmitButton();
+          setStateAdFormSubmitButton();
           showMessage('success', 'Данные успешно отправлены');
           resetAdForm();
         },
@@ -297,10 +295,7 @@ const addAdFormSubmitListener = (cb) => {
 };
 
 export {
-  enableAdForm,
-  disableAdForm,
-  enableAdFormSubmitButton,
-  disableAdFormSubmitButton,
+  setStateAdForm,
   resetAdForm,
   addAdFormSubmitListener,
   addAdFormResetListener,

@@ -26,22 +26,20 @@ const filterFormHousingRooms = filterForm.querySelector('[name="housing-rooms"]'
 const filterFormHousingGuests = filterForm.querySelector('[name="housing-guests"]');
 
 /**
- * Включение активного состояния формы фильтрации объявлений
+ * Включение/выключение активного состояния формы фильтрации объявлений
  */
-const enableFilterForm = () => {
-  filterForm.classList.remove('ad-form--disabled');
-  for (const child of filterFormChildren) {
-    child.disabled = false;
+const setStateFilterForm = (state = 'enabled') => {
+  if (state === 'enabled') {
+    filterForm.classList.remove('ad-form--disabled');
+    for (const child of filterFormChildren) {
+      child.disabled = false;
+    }
   }
-};
-
-/**
- * Включение неактивного состояния формы фильтрации объявлений
- */
-const disableFilterForm = () => {
-  filterForm.classList.add('ad-form--disabled');
-  for (const child of filterFormChildren) {
-    child.disabled = true;
+  if (state === 'disabled') {
+    filterForm.classList.add('ad-form--disabled');
+    for (const child of filterFormChildren) {
+      child.disabled = true;
+    }
   }
 };
 
@@ -121,8 +119,7 @@ const isFilterPassed = (card) =>
   && isHousingFeaturesCondPassed(card);
 
 export {
-  enableFilterForm,
-  disableFilterForm,
+  setStateFilterForm,
   resetFilterForm,
   addChangeEventFilterForm,
   isFilterPassed,
