@@ -35,7 +35,7 @@ const getAdCard = (author, offer) => {
   capacity.textContent = `${offer.rooms} ${getDecOfNum(offer.rooms, ['комната', 'комнаты', 'комнат'])} для ${offer.guests} ${getDecOfNum(offer.guests, ['гостя', 'гостей', 'гостей'])}`;
   time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
-  if (!offer.features) {
+  if (!offer.features.length) {
     features.remove();
   } else {
     const featuresList = card.querySelectorAll('.popup__feature');
@@ -54,7 +54,7 @@ const getAdCard = (author, offer) => {
     description.textContent = offer.description;
   }
 
-  if (!offer.photos) {
+  if (!offer.photos.length) {
     photos.remove();
   } else {
     const photosFragment = document.createDocumentFragment();

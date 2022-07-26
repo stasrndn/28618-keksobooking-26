@@ -1,4 +1,3 @@
-import './card.js';
 import {getData} from './api.js';
 import {showMessage} from './popup-message.js';
 import {applyCardsFilter} from './filter.js';
