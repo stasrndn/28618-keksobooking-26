@@ -48,8 +48,9 @@ const disableFilterForm = () => {
 /**
  * Восстанавливает стандартные значения всем элементам формы фильтрации
  */
-const resetFilterForm = () => {
+const resetFilterForm = (cb) => {
   filterForm.reset();
+  cb();
 };
 
 /**

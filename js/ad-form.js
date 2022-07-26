@@ -31,6 +31,7 @@ const RatioRoomsSeats = {
 const adForm = document.querySelector('.ad-form');
 const adFormFieldset = adForm.querySelectorAll('fieldset');
 const adFormSubmitButton = adForm.querySelector('[type="submit"]');
+const adFormResetButton = adForm.querySelector('[type="reset"]');
 const adFormPriceField = adForm.querySelector('[name="price"]');
 const adFormSlider = adForm.querySelector('.ad-form__slider');
 const adFormTypeField = adForm.querySelector('[name="type"]');
@@ -227,12 +228,13 @@ const addChangeEventAdFormCapacityField = () => {
 /**
  * Добавляет обработчик сбрасывания формы добавления объявления
  */
-const addAdFormResetListener = () => {
+const addAdFormResetListener = (cb) => {
   const onResetAdForm = () => {
     adFormAvatarField.src = DEFAULT_AVATAR_URL;
     adFormPhotoField.innerHTML = '';
     adFormSlider.noUiSlider.reset();
     pristine.reset();
+    cb();
   };
   adForm.addEventListener('reset', onResetAdForm);
 };
@@ -266,7 +268,6 @@ addChangeEventAdFormRoomsField();
 addChangeEventAdFormCapacityField();
 addChangeEventAdFormPriceField();
 addUpdateEventAdFormSlider();
-addAdFormResetListener();
 addAvatarUploader();
 addHousePhotoUploader();
 
@@ -303,5 +304,6 @@ export {
   disableAdFormSubmitButton,
   resetAdForm,
   addAdFormSubmitListener,
+  addAdFormResetListener,
   adFormAddressField
 };

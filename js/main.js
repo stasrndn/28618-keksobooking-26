@@ -3,7 +3,7 @@ import {getData} from './api.js';
 import {showMessage} from './popup-message.js';
 import {applyCardsFilter} from './filter.js';
 import {debounce} from './util.js';
-import {enableAdForm, disableAdForm, addAdFormSubmitListener, adFormAddressField} from './ad-form.js';
+import {enableAdForm, disableAdForm, addAdFormSubmitListener, addAdFormResetListener, adFormAddressField} from './ad-form.js';
 import {enableFilterForm, disableFilterForm, addChangeEventFilterForm, resetFilterForm} from './filter-form.js';
 import {
   addMapToCanvas,
@@ -24,12 +24,6 @@ disableFilterForm();
 addMapToCanvas(() => {
   enableAdForm();
   enableFilterForm();
-  addAdFormSubmitListener(() => {
-    setMainPinMarkerDefaultCoords();
-    setMapDefaultCoords();
-    resetFilterForm();
-    clearMarkersOnMap();
-  });
 });
 
 getData((cards) => {
@@ -40,4 +34,22 @@ getData((cards) => {
     clearMarkersOnMap();
     addMarkersToMap(applyCardsFilter(cards));
   }, RERENDER_DELAY));
+  addAdFormSubmitListener(() => {
+    setMainPinMarkerDefaultCoords();
+    setMapDefaultCoords();
+    resetFilterForm(debounce(() => {
+      clearMarkersOnMap();
+      addMarkersToMap(applyCardsFilter(cards));
+    }, RERENDER_DELAY));
+    clearMarkersOnMap();
+  });
+  addAdFormResetListener(() => {
+    setMainPinMarkerDefaultCoords();
+    setMapDefaultCoords();
+    resetFilterForm(debounce(() => {
+      clearMarkersOnMap();
+      addMarkersToMap(applyCardsFilter(cards));
+    }, RERENDER_DELAY));
+    clearMarkersOnMap();
+  });
 }, () => showMessage('error', 'Не удалось загрузить данные. Перезагрузите страницу'));
