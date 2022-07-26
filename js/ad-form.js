@@ -138,6 +138,7 @@ const addSliderToAdFormPriceField = () => {
 const addUpdateEventAdFormSlider = () => {
   const onUpdateAdFormSlider = () => {
     adFormPriceField.value = adFormSlider.noUiSlider.get();
+    pristine.validate();
   };
   adFormSlider.noUiSlider.on('update', onUpdateAdFormSlider);
 };
