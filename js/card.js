@@ -35,9 +35,7 @@ const getAdCard = (author, offer) => {
   capacity.textContent = `${offer.rooms} ${getDecOfNum(offer.rooms, ['комната', 'комнаты', 'комнат'])} для ${offer.guests} ${getDecOfNum(offer.guests, ['гостя', 'гостей', 'гостей'])}`;
   time.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
-  if (!offer.features.length) {
-    features.remove();
-  } else {
+  if (offer.features && offer.features.length) {
     const featuresList = card.querySelectorAll('.popup__feature');
     const availableFeatures = offer.features.map((feature) => `popup__feature--${feature}`);
     featuresList.forEach((item) => {
@@ -46,6 +44,8 @@ const getAdCard = (author, offer) => {
         item.remove();
       }
     });
+  } else {
+    features.remove();
   }
 
   if (!offer.description) {
@@ -54,9 +54,7 @@ const getAdCard = (author, offer) => {
     description.textContent = offer.description;
   }
 
-  if (!offer.photos.length) {
-    photos.remove();
-  } else {
+  if (offer.photos && offer.photos.length) {
     const photosFragment = document.createDocumentFragment();
     const photoTemplate = photos.querySelector('.popup__photo');
     offer.photos.forEach((src) => {
@@ -66,6 +64,8 @@ const getAdCard = (author, offer) => {
     });
     photos.innerHTML = '';
     photos.appendChild(photosFragment);
+  } else {
+    photos.remove();
   }
 
   avatar.src = author.avatar;
